@@ -1,7 +1,7 @@
 org: dpernaute
 app: todo-list-serverless
 service: serverless-rest-api-with-dynamodb
-frameworkVersion: ">=1.1.0 <=2.20.0"
+frameworkVersion: ">=1.1.0"
 
 provider:
   name: aws
@@ -25,7 +25,7 @@ provider:
       Resource: "*"
     - Effect: Allow
       Action:
-        - Translate:TranslateText
+        - translate:translateText
         - Cloudwatch:GetMetricStstistics
         - Cloudwatch:ListMetrics
       Resource: "*"
@@ -71,8 +71,8 @@ functions:
           method: delete
           cors: true
           
-  translate:
-    handler: todos/translate.translate
+  translator:
+    handler: todos/translator.translator
     events:
       - http: 
           path: todos/{id}/{language}
