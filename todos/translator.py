@@ -33,8 +33,8 @@ def translator(event, context):
     # create a response
     response = {
         "statusCode": 200,
-        "body": json.dumps("Translated text: " + result.get('TranslatedText'),
-                           cls=decimalencoder.DecimalEncoder)
+        "body": json.dumps("Translated text: ")# + result.get('TranslatedText'),
+                          # cls=decimalencoder.DecimalEncoder)
     }
 
     return response
