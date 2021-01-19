@@ -1,5 +1,5 @@
 org: dpernaute
-app: todo-list-serverless
+app: todo-list-serverless-2
 service: serverless-rest-api-with-dynamodb
 frameworkVersion: ">=1.1.0"
 
@@ -25,9 +25,9 @@ provider:
       Resource: "*"
     - Effect: Allow
       Action:
-        - translate:translateText
-        - Cloudwatch:GetMetricStstistics
-        - Cloudwatch:ListMetrics
+        - translate:TranslateText
+        #- Cloudwatch:GetMetricStstistics
+        #- Cloudwatch:ListMetrics
       Resource: "*"
         
 functions:
