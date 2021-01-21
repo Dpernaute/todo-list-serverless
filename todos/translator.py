@@ -11,12 +11,11 @@ translate = boto3.client('translate')
 
 def translator(event, context):
     
-    Source_language = "auto"
-    data = json.loads(event['body'])
+    Source_language = 'auto'
+   # data = json.loads(event['body'])
     
     table = dynamodb.Table(os.environ['DYNAMODB_TABLE'])
 
-    
         
     # fetch todo from the database
     response= table.get_item(
@@ -26,14 +25,17 @@ def translator(event, context):
     )
         
             
-    result = translate.TranslateText(response['text'], 
-            Source_language, data['language'])
-    
+    result = {
+        
+        'text' : translate.translate_text(Text = response['Item']['text'], 
+            SourceLanguageCode ='auto', TargetLanguageCode = event['pathParameters']['language'])
+        
+    }
     
     # create a response
     response = {
         "statusCode": 200,
-        "body": json.dumps("Translated text: ")# + result.get('TranslatedText'),
+        "body": json.dumps(result['text'])# + result.get('TranslatedText'),
                           # cls=decimalencoder.DecimalEncoder)
     }
 
