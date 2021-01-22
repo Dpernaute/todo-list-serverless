@@ -1,6 +1,6 @@
 org: dpernaute
-app: todo-list-serverless
-service: serverless-rest-api-with-dynamodb
+app: todo-list-serverless-2
+service: serverless-rest-api-with-dynamodb-2
 frameworkVersion: ">=1.1.0"
 
 provider:
@@ -18,7 +18,20 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
-
+    - Effect: Allow
+      Action:
+        - Comprehend:BatchDetectDominantLanguage
+        - Comprehend:DetectDominantLanguage
+        - Cloudwatch:GetMetricStstistics
+        - Cloudwatch:ListMetrics
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - translate:TranslateText
+        - Cloudwatch:GetMetricStstistics
+        - Cloudwatch:ListMetrics
+      Resource: "*"
+        
 functions:
   create:
     handler: todos/create.create
@@ -59,6 +72,14 @@ functions:
           path: todos/{id}
           method: delete
           cors: true
+          
+  translator:
+    handler: todos/translator.translator
+    events:
+      - http: 
+          path: todos/{id}/{language}
+          method: get
+          cors: true
 
 resources:
   Resources:
@@ -70,6 +91,7 @@ resources:
           -
             AttributeName: id
             AttributeType: S
+          
         KeySchema:
           -
             AttributeName: id
